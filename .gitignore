@@ -1,0 +1,17 @@
+#backend
+**/*.pkl
+.env
+venv
+virtualenv
+__pycache__/
+dist
+
+# frontend
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+routeTree.gen.ts
+bun.lock
+package-lock.json

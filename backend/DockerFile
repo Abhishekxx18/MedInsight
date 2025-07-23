@@ -1,0 +1,28 @@
+# Stage 1: Build frontend using Bun
+FROM oven/bun:1.2.12 as frontend-build
+
+WORKDIR /app
+
+# Copy frontend files into this stage
+COPY ../frontend .  
+
+RUN bun install
+RUN bun run build
+
+# Stage 2: Backend with Python + copied frontend
+FROM python:3.12 as backend
+
+WORKDIR /app
+
+# Copy backend source
+COPY . .
+
+# Copy frontend build output from previous stage
+COPY --from=frontend-build /app/dist ./dist
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
